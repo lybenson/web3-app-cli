@@ -25,6 +25,7 @@ function formatTargetDir(targetDir) {
   return targetDir?.trim().replace(/\/+$/g, '')
 }
 
+// main function
 async function main() {
   let targetDir = formatTargetDir(argv._[0])
   let template = argv.template || argv.t
