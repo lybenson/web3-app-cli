@@ -1,11 +1,18 @@
 {
-  "name": "root",
+  "name": "web3-app-cli",
+  "version": "0.0.1",
   "private": true,
-  "main": "index.js",
   "type": "module",
+  "license": "MIT",
+  "author": "lybenson",
   "bin": {
-    "web3-app": "index.js"
+    "web3-app": "src/index.js"
   },
+  "files": [
+    "index.js",
+    "templates/hardhat-react-*"
+  ],
+  "main": "src/index.js",
   "dependencies": {
     "kolorist": "^1.5.1",
     "minimist": "^1.2.6",
