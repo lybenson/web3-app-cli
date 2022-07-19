@@ -1,5 +1,8 @@
 {
-  "name": "hardhat-project",
+  "name": "chain-app",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.0"
   },
