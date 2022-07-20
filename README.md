@@ -21,6 +21,7 @@ web3-app
 - [ ] connect to metamask demo
 - [ ] hardhat env config
 - [ ] external command
+- [ ] compiling react with vite
 - [ ] git commit code format checks
 
 ## License

@@ -1,7 +1,6 @@
 {
   "name": "web3-app-cli",
-  "version": "0.0.1",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "license": "MIT",
   "author": "lybenson",
@@ -9,7 +8,7 @@
     "web3-app": "src/index.js"
   },
   "files": [
-    "index.js",
+    "src/*",
     "templates/hardhat-react-*"
   ],
   "main": "src/index.js",
