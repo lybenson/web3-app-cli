@@ -5,8 +5,6 @@ Quickly build a dapp application, including front-end and smart contracts
 ## install
 
 ```shell
-yarn create web3-app-cli
-# or
 npm install -g web3-app-cli
 web3-app
 ```
