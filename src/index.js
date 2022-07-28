@@ -8,7 +8,7 @@ import minimist from 'minimist'
 import { red, reset } from 'kolorist'
 import prompts from 'prompts'
 import { emptyDir, formatTargetDir, isEmpty, isValidPackageName, toValidPackageName, write, writeContent, pkgFromUserAgent } from './utils.js'
-import { TEMPLATES, DEFAULT_TARGET_DIR } from './const.js'
+import { TEMPLATES, DEFAULT_TARGET_DIR, POINTS } from './const.js'
 
 const argv = minimist(process.argv.slice(2), { string: ['_'] })
 const cwd = process.cwd()
@@ -61,7 +61,7 @@ async function main() {
     {
       type: 'select',
       name: 'language',
-      message: reset('Select a language'),
+      message: reset('Select an language'),
       initial: 0,
       choices: TEMPLATES.map(tpl => {
         return {
@@ -69,6 +69,21 @@ async function main() {
           value: tpl.name
         }
       })
+    },
+    {
+      type: 'multiselect',
+      name: 'points',
+      message: reset('Pick Point'),
+      choices: POINTS.map(point => {
+        return {
+          title: point.color(point.name),
+          value: point.name,
+          selected: true
+        }
+      }),
+      instructions: '',
+      min: 1,
+      hint: '- Space to select. Return to submit'
     }
   ]
 
@@ -84,9 +99,19 @@ async function main() {
     return
   }
 
-  const { overwrite, packageName, language } = result
+  const { overwrite, packageName, language, points } = result
+  console.log(result)
 
-  const templateName = `hardhat-react-${ language === 'JavaScript' ? 'js' : 'ts' }`
+  let templateName = `hardhat-react-${ language === 'JavaScript' ? 'js' : 'ts' }`
+
+  if (points.length === 1) {
+    if (points[0] === 'hardhat') {
+      templateName += '/packages/chain-app'
+    }
+    if (points[0] === 'react') {
+      templateName += '/packages/react-app'
+    }
+  }
 
   // get project root dir
   const root = path.join(cwd, targetDir)
@@ -116,6 +141,21 @@ async function main() {
     fs.readFileSync(path.join(templateDir, 'package.json'), 'utf-8')
   )
   pkg.name = packageName || getProjectName()
+
+  if (!pkg.devDependencies['eslint']) {
+    if (language === 'TypeScript') {
+      pkg.devDependencies['@typescript-eslint/eslint-plugin'] = '^5.30.7'
+      pkg.devDependencies['@typescript-eslint/parser'] = '^5.30.7'
+      pkg.devDependencies['typescript'] = '^4.7.4'
+    }
+    pkg.devDependencies['eslint'] = '^8.20.0'
+    pkg.devDependencies['eslint-config-standard'] = '^17.0.0'
+    pkg.devDependencies['eslint-plugin-import'] = '^2.26.0'
+    pkg.devDependencies['eslint-plugin-n'] = '^15.2.4'
+    pkg.devDependencies['eslint-plugin-promise'] = '^6.0.0'
+    if (points.indexOf('react') > -1) pkg.devDependencies['eslint-plugin-react'] = '^7.30.1'
+  }
+
   writeContent(root, 'package.json', JSON.stringify(pkg, null, 2))
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
@@ -130,11 +170,11 @@ async function main() {
   switch (pkgManager) {
     case 'yarn':
       console.log('  yarn')
-      console.log('  yarn dev')
+      points.length === 1 && points[0] === 'react' && console.log('  yarn dev')
       break
     default:
       console.log(`  ${pkgManager} install`)
-      console.log(`  ${pkgManager} run dev`)
+      points.length === 1 && points[0] === 'react' && console.log(`  ${pkgManager} run dev`)
       break
   }
   console.log()

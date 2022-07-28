@@ -10,4 +10,15 @@ export const TEMPLATES = [
   }
 ]
 
+export const POINTS = [
+  {
+    name: 'react',
+    color: blue
+  },
+  {
+    name: 'hardhat',
+    color: green
+  }
+]
+
 export const DEFAULT_TARGET_DIR = 'web3-app-project'
