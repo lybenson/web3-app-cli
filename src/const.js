@@ -1,4 +1,6 @@
 import { blue, green } from 'kolorist'
+
+// code language options
 export const TEMPLATES = [
   {
     name: 'JavaScript',
@@ -10,6 +12,7 @@ export const TEMPLATES = [
   }
 ]
 
+// end-point options
 export const POINTS = [
   {
     name: 'react',
