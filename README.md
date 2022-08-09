@@ -22,6 +22,7 @@ web3-app
 - [ ] external command
 - [ ] compiling react with vite
 - [ ] git commit code format checks
+- [ ] sample env
 
 ## License
 
