@@ -9,6 +9,7 @@ import { red, reset } from 'kolorist'
 import prompts from 'prompts'
 import { emptyDir, formatTargetDir, isEmpty, isValidPackageName, toValidPackageName, write, writeContent, pkgFromUserAgent } from './utils.js'
 import { TEMPLATES, DEFAULT_TARGET_DIR, POINTS } from './const.js'
+import shell from './shell.js'
 
 const argv = minimist(process.argv.slice(2), { string: ['_'] })
 const cwd = process.cwd()
@@ -165,6 +166,12 @@ async function main() {
 
   if (root !== cwd) {
     console.log(`  cd ${path.relative(cwd, root)}`)
+  }
+
+  try {
+    shell.exec(`cd ${path.relative(cwd, root)} && git init`)
+  } catch (error) {
+    console.error(error)
   }
 
   switch (pkgManager) {

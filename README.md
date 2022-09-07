@@ -16,7 +16,7 @@ web3-app
 - [x] support javascript and typescript
 - [x] support eslint
 - [ ] support solhint
-- [ ] git init
+- [x] git init
 - [x] set up front-end and smart contract optional
 - [ ] connect to metamask demo
 - [ ] hardhat env config
